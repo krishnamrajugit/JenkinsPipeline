@@ -1,8 +1,5 @@
 pipeline{
     agent any
-    tools{
-        maven 'Installed_Maven'
-    }
     stages{
         stage('Build'){
             steps{
@@ -11,7 +8,7 @@ pipeline{
         }
         stage('Deploy'){
             steps{
-                deploy adapters: [tomcat9(credentialsId: 'TomcatCredentials', path: '', url: 'http://localhost:8081/')], contextPath: null, war: '**/*.war'
+                deploy adapters: [tomcat9(credentialsId: 'TomcatCredentials', path: '', url: 'http://localhost:8081/')], contextPath: 'CICDWebApp', war: 'target/*.war'
             }
         }
     }
