@@ -6,17 +6,12 @@ pipeline{
     stages{
         stage('Build'){
             steps{
-                sh 'mvn clean package'
-            }
-            post{
-                success{
-                    archiveArtifacts artifacts: '**/target/*.war', followSymlinks: false
-                }
+                sh 'mvn clean install'
             }
         }
         stage('Deploy'){
             steps{
-                deploy adapters: [tomcat9(credentialsId: 'TomcatCredentials', path: '', url: 'http://localhost:8081/')], contextPath: 'WebApp', war: '**/*.war'
+                deploy adapters: [tomcat9(credentialsId: 'TomcatCredentials', path: '', url: 'http://localhost:8081/')], contextPath: null, onFailure: false, war: '**/*.war'
             }
         }
     }
