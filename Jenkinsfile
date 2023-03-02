@@ -5,14 +5,13 @@ pipeline{
     }
     stages{
         stage('Build'){
-            steps{
                 sh 'mvn clean install'
-            }
+        }
+        stage('Archive Artifacts'){
+                archiveArtifacts artifacts: 'target/*.war'   
         }
         stage('Deploy'){
-            steps{
-                deploy adapters: [tomcat9(credentialsId: 'TomcatServerAdminCreds', url: 'http://localhost:8081/')], onFailure: false, contextPath: null, war: '**/*.war'
-            }
+                deploy adapters: [tomcat9(credentialsId: 'TomcatServerAdminCreds', url: 'http://localhost:8081/')], onFailure: false, contextPath: null, war: 'target/*.war'
         }
     }
 }
