@@ -1,0 +1,18 @@
+pipeline{
+    agent {
+  label 'CentOS'
+}
+    
+    stages{
+        stage('Build'){
+            steps{
+                   sh """
+                   echo "executing remote script for hostname"
+                   chmod u+x /home/krishna/test.sh 
+                   cd /home/krishna
+                   ./test.sh"""
+            }
+        }
+        
+    }
+}  
